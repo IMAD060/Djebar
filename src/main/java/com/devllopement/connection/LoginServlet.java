@@ -50,6 +50,9 @@ public class LoginServlet extends HttpServlet {
 			    }else if ("Bibliothecaire".equals(userType)) {
 			        session.setAttribute("login", login);
 			        response.sendRedirect("Bibliothecaire.jsp");
+			    }else if ("Etudiant".equals(userType)) {
+			        session.setAttribute("login", login);
+			        response.sendRedirect("Etudiant.jsp");
 			    }else {
 			        response.sendRedirect("accueil.jsp");
 			    }

@@ -1,9 +1,10 @@
-package sup;
+package ajout;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,37 +14,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebServlet("/Suprimer")
-public class Suprimer extends HttpServlet {
+@WebServlet("/AjouterExemplaire")
+public class AjouterExemplaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("login")!=null){
-			String id = request.getParameter("nom_ouvrage");
-			String isbn = request.getParameter("ISBN");
-
-			
+			String ISBN = request.getParameter("ISBN");
+			String nom= request.getParameter("typeex");
 			String url  = "jdbc:mysql://localhost:3300/Bibliothquedb";
 			String user = "root";
 			String pwd  = "";
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection con = DriverManager.getConnection(url, user, pwd);
-				PreparedStatement pst=con.prepareStatement("DELETE FROM ouvrages WHERE nom_ouvrage=?");
-				pst.setString(1,id);
-				pst.executeUpdate();
-				response.sendRedirect("Bibliothecaire.jsp");
-				pst.close();
-				con.close();
-			}catch(Exception e) {
-				System.out.print(e);
-			}
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection(url, user, pwd);
-				PreparedStatement pst=con.prepareStatement("DELETE FROM demandeEmprunt WHERE nom_ouvrage=?");
-				pst.setString(1,isbn);
+				PreparedStatement pst=con.prepareStatement("INSERT INTO exemplaires (ISBN,nom_ouvrage) VALUES (?,?)");
+				pst.setString(1,ISBN);
+				pst.setString(2,nom);			
+
 				pst.executeUpdate();
 				response.sendRedirect("Bibliothecaire.jsp");
 				pst.close();
@@ -54,5 +43,9 @@ public class Suprimer extends HttpServlet {
 		}else response.sendRedirect("Login.jsp");
 	}
 
-
 }
+
+
+
+
+

@@ -34,11 +34,8 @@ if (session.getAttribute("login") != null) {
 		</ul>
 		<a class="contacte" href="Logout">Deconnexion</a>
 	</header>
-	<!-- <div align="left">
-		Bienvenue
-		<%=login%><br>
-	</div>
-	 -->
+	
+	
 	<h1 style="text-align: center;">Ajouter un Etudiant</h1>
 	<form class="row g-3" method="POST" action="Ajouter" style="margin: 100px;">
 	
