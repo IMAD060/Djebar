@@ -35,7 +35,7 @@
     </style>
 </head>
 <body>
-        <%= session.getAttribute("login") %>
+       
          <h1 style="text-align: center;">Liste de tous les ouvrage</h1>
             <div class="tableFixHead">
             
@@ -87,6 +87,119 @@
                 <a disabled>Emprunter</a>
             <% } %>
         </td>		
+          
+        <%
+				
+			}
+			
+			} catch (Exception e) {
+			//System.out.print(e);
+			}
+		
+		%>
+        </tbody>
+       
+      </table>
+
+    </div>
+          
+               	   <h1 style="text-align: center;">Liste de mes demande Emprunts </h1>
+          
+           <div class="tableFixHead">
+            
+        <table>
+      
+        <thead>
+          <tr>
+            <th>Nom Ouvrage</th>
+            <th>Action</th>
+			
+          </tr>
+        </thead>
+        <tbody>
+        
+        <%
+    	
+       	 String etudiant = (String) session.getAttribute("login");
+
+         
+		try {
+	      
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection(url, user, pwd);
+			PreparedStatement pst = con.prepareStatement("SELECT * FROM demandeEmprunt WHERE nom_etudiant=?");
+            pst.setString(1,etudiant);
+			ResultSet rs = pst.executeQuery();
+			 
+			while (rs.next()) {
+				
+		%>
+			
+          <tr>
+            
+			<td><%=rs.getString(2)%></td>
+			<td><a href="Suprimer?ouvrage=<%=rs.getString(2)%>">Supprimer</a> </td>
+			
+			  
+          
+        <%
+				
+			}
+			
+			} catch (Exception e) {
+			//System.out.print(e);
+			}
+		
+		%>
+        </tbody>
+       
+      </table>
+
+    </div>
+           <h1 style="text-align: center;">Liste de mes Emprunts </h1>
+          
+           <div class="tableFixHead">
+            
+        <table>
+      
+        <thead>
+          <tr>
+            
+            <th>isbn</th>
+            <th>date emprunt</th>
+            <th>date retour </th>
+         
+            <th>Action</th>
+			
+          </tr>
+        </thead>
+        <tbody>
+        
+        <%
+    	
+
+         
+		try {
+	      
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection(url, user, pwd);
+			PreparedStatement pst = con.prepareStatement("SELECT * FROM emprunt WHERE nom_etudiant=?");
+            pst.setString(1,etudiant);
+			ResultSet rs = pst.executeQuery();
+			 
+			while (rs.next()) {
+				
+		%>
+			
+          <tr>
+            
+			<td><%=rs.getString(2)%></td>
+						<td><%=rs.getString(3)%></td>
+						<td><%=rs.getString(4)%></td>
+			
+			<td><a href="Suprimer?ouvrage=<%=rs.getString(2)%>"> Demande Prolongation</a> </td>
+			
+			  
           
         <%
 				

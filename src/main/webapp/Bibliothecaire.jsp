@@ -104,7 +104,7 @@
 			<td><%=rs.getString(3)%></td>
 			<td><%=rs.getInt("nombre_exemplaires")%></td>
 			  <td>
-            <a href="Suprimer?nom_ouvrage=<%=rs.getString(1)%>">Supprimer</a>
+            <a href="Suprimer?n_ouvrage=<%=rs.getString(1)%>">Supprimer</a>
            
           
         <%
@@ -291,6 +291,7 @@
             <label for="message-text" class="col-form-label">isbn</label>
        		<input type="text" name="Auteurs" class="form-control" id="recipient-name">
           </div>
+          
          
       </div>
       <div class="modal-footer">
@@ -341,7 +342,60 @@
 		</tbody>
       </table>
     </div>
+     	   <h1 style="text-align: center;">Liste des Emprunt </h1>
+    
+      <div class="tableFixHead">
+      <table>
       
+        <thead>
+          <tr>
+            <th>Nom Etudiant</th>
+            <th>isbn</th>
+            <th>date emprunt</th>
+            <th>date retoure</th>
+            <th>Action</th>
+			
+          </tr>
+        </thead>
+        <tbody>
+        <%
+	
+		
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection(url, user, pwd);
+			PreparedStatement pst = con.prepareStatement("SELECT * FROM emprunt");
+			ResultSet rs = pst.executeQuery();
+			 
+			while (rs.next()) {
+				
+		%>
+			
+          <tr>
+            <td><%=rs.getString(1)%></td>
+			<td><%=rs.getString(2)%></td>
+			<td><%=rs.getString(3)%></td>
+			<td><%=rs.getString(4)%></td>
+			
+			  <td>
+            <a href="Suprimer?n_ouvrage=<%=rs.getString(1)%>">Supprimer</a>
+           
+          
+        <%
+				
+			}
+			
+			} catch (Exception e) {
+			//System.out.print(e);
+			}
+		
+		%>
+        </tbody>
+        
+      </table>
+
+    </div>
   </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
