@@ -291,6 +291,29 @@
             <label for="message-text" class="col-form-label">isbn</label>
        		<input type="text" name="Auteurs" class="form-control" id="recipient-name">
           </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Nom ouvrage</label>
+            
+			<select id="inputState" class="form-select" name="typeex">
+				 <%
+					try {
+						Class.forName("com.mysql.cj.jdbc.Driver");
+						Connection con = DriverManager.getConnection(url, user, pwd);
+						PreparedStatement pst = con.prepareStatement("SELECT * FROM ouvrages");
+						ResultSet rs = pst.executeQuery();
+						while (rs.next()) {
+				%>
+				<option selected value="<%=rs.getString(1)%>"><%=rs.getString(1)%></option>
+				
+				 <%
+		}} catch (Exception e) {
+			//System.out.print(e);
+			}
+		
+		%>
+			</select>          
+			
+			</div>
           
          
       </div>
@@ -351,6 +374,7 @@
           <tr>
             <th>Nom Etudiant</th>
             <th>isbn</th>
+            <th>ouvrage</th>
             <th>date emprunt</th>
             <th>date retoure</th>
             <th>Action</th>
@@ -376,10 +400,68 @@
             <td><%=rs.getString(1)%></td>
 			<td><%=rs.getString(2)%></td>
 			<td><%=rs.getString(3)%></td>
+			
 			<td><%=rs.getString(4)%></td>
+			<td><%=rs.getString(5)%></td>
+			
+			  <td>
+            <a href="PROL?isbn=<%=rs.getString(2)%>&date_retour=<%=rs.getString(4)%>">Prolonger</a>
+            <a href="RES?isbn=<%=rs.getString(2)%>&ouvrage=<%=rs.getString(3)%>">Restituer</a></td>
+           
+           
+          
+        <%
+				
+			}
+			
+			} catch (Exception e) {
+			//System.out.print(e);
+			}
+		
+		%>
+        </tbody>
+        
+      </table>
+
+    </div>
+    <h1 style="text-align: center;">Liste des demande de prolongation </h1>
+    
+      <div class="tableFixHead">
+      <table>
+      
+        <thead>
+          <tr>
+            <th>Nom Etudiant</th>
+            <th>isbn</th>
+        
+            <th>Action</th>
+			
+          </tr>
+        </thead>
+        <tbody>
+        <%
+	
+		
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection(url, user, pwd);
+			PreparedStatement pst = con.prepareStatement("SELECT * FROM demandeprolongation");
+			ResultSet rs = pst.executeQuery();
+			 
+			while (rs.next()) {
+				
+		%>
+			
+          <tr>
+            <td><%=rs.getString(1)%></td>
+			<td><%=rs.getString(2)%></td>
+		
+		
 			
 			  <td>
             <a href="Suprimer?n_ouvrage=<%=rs.getString(1)%>">Supprimer</a>
+           
            
           
         <%

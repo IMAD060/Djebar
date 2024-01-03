@@ -197,7 +197,7 @@
 						<td><%=rs.getString(3)%></td>
 						<td><%=rs.getString(4)%></td>
 			
-			<td><a href="Suprimer?ouvrage=<%=rs.getString(2)%>"> Demande Prolongation</a> </td>
+			<td><a href="Prolonger?emprunt=<%=rs.getString(2)%>&nom_etudiant=<%= session.getAttribute("login") %>&date_retour=<%=rs.getString(4)%>"> Demande Prolongation</a> </td>
 			
 			  
           

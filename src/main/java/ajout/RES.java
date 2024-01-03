@@ -1,4 +1,5 @@
-package emprunt;
+package ajout;
+
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,33 +17,39 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebServlet("/AjouterEmprunt")
-public class AjouterEmprunt extends HttpServlet {
+@WebServlet("/RES")
+public class RES extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("login")!=null){
-			String nom = request.getParameter("nom");
-			String Auteurs= request.getParameter("Auteurs");
-			String typeex= request.getParameter("typeex");
+			String isbn = request.getParameter("isbn");
+			String ouvrage= request.getParameter("ouvrage");
 			
-			LocalDateTime currentDateTime = LocalDateTime.now();
-			Timestamp timestamp = Timestamp.valueOf(currentDateTime);
-			LocalDateTime dateRetour = currentDateTime.plusDays(15); 
-			Timestamp timestampDateRetour = Timestamp.valueOf(dateRetour);
+			
 			String url  = "jdbc:mysql://localhost:3300/Bibliothquedb";
 			String user = "root";
 			String pwd  = "";
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection con = DriverManager.getConnection(url, user, pwd);
-				PreparedStatement pst=con.prepareStatement("INSERT INTO emprunt (nom_etudiant,isbn,nom_ouvrage,date_emprunt,date_retour) VALUES (?,?,?,?,?)");
-				pst.setString(1,nom);
-				pst.setString(2,Auteurs);	
-				pst.setString(3,typeex);			
-				pst.setTimestamp(4,timestamp);			
-				pst.setTimestamp(5,timestampDateRetour);			
+				PreparedStatement pst=con.prepareStatement("INSERT INTO exemplaires (ISBN,nom_ouvrage) VALUES (?,?)");
+				pst.setString(1,isbn);
+				pst.setString(2,ouvrage);			
+
+				pst.executeUpdate();
+				response.sendRedirect("Bibliothecaire.jsp");
+				pst.close();
+				con.close();
+			}catch(Exception e) {
+				System.out.print(e);
+			}
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				Connection con = DriverManager.getConnection(url, user, pwd);
+				PreparedStatement pst=con.prepareStatement("DELETE FROM emprunt WHERE isbn =?");
+				pst.setString(1,isbn);
 
 				pst.executeUpdate();
 				response.sendRedirect("Bibliothecaire.jsp");
